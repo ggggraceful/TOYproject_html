@@ -15,6 +15,10 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
+@app.route('/write')
+def write():
+   return render_template('write.html')
+
 @app.route("/write", methods=["POST"])
 def write_post():
     title_receive = request.form['title_give']
@@ -35,10 +39,6 @@ def write_post():
 
     db.writes.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
-
-@app.route('/write')
-def write():
-    return render_template('write.html')
 
 @app.route("/write", methods=["GET"])
 def write_get():
