@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <!--    파일업로드 라이브러리-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+
+    <title>GooddaytoWalk</title>
+    <!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <style>
+        h1 {
+            font-family: 'Nanum Pen Script', cursive;
+        }
+
+        .mypic {
+            width: 100%;
+            height: 250px;
+            background-image: url("https://www.durunubi.kr/editImgUp.do?filePath=/data/koreamobility/editor/2018/09/201809271542199a8d1eac-6c6e-4828-80c8-2e54a272adf4.jpg");
+            background-position: bottom;
+            background-size: cover;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            font-size: xx-large;
+
+        }
+
+        .container {
+            width: 700px;
+            margin-top: 40px;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            border: 1px solid gray;
+            padding: 50px;
+        }
+
+        .runtime {
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .address-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .radio-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .custom-file {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        input::placeholder {
+            font-size : 17px;
+        }
+
+        textarea::placeholder {
+            font-size : 17px;
+        }
+
+        .input-group-text{
+            font-size : 17px;
+        }
+
+
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            // 파일업로드 코드
+            bsCustomFileInput.init()
+            console.log('새로고침')
+            // walk_get()
+        })
+
+
+        function walk_get() {
+            $.ajax({
+                type: "GET",
+                url: "/walk_get",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    let walk_list = response['walk']
+                    console.log(walk_list)
+                    for (let i = 0; i < walk_list.length; i++) {
+                        let title = walk_list[i]['title']
+                        let file = walk_list[i]['file']
+                        console.log(title, file)
+                    }
+
+                }
+            })
+        }
+
+        // 파일업로드 클라이언트쪽 보내기 코드 form_data 에 실어서 보냄
+        function posting() {
+            let title = $("#title").val()
+            let comment = $("#comment").val()
+            let address = $("#address").val()
+            let city = $("#city").val()
+            let runtime = $("input:radio[name=runtimeRadios]:checked").val()
+            let difficulty = $("input:radio[name=difficultyRaidos]:checked").val()
+
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+
+            form_data.append("title_give", title)
+            form_data.append("comment_give", comment)
+            form_data.append("address_give", address)
+            form_data.append("city_give", city)
+            form_data.append("runtime_give", runtime)
+            form_data.append("difficulty_give", difficulty)
+            console.log(form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/walk",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["msg"])
+                    console.log(response)
+                    window.location.href = '/index'
+                }
+            })
+
+        }
+
+    </script>
+</head>
+<body>
+<div class="mypic">
+    <h1>Goodday to Walk</h1>
+</div>
+<div class="container">
+    <div class="input-group input-group-lg">
+        <span class="input-group-text">트레킹 코스명</span>
+        <input type="text" class="form-control" id="title" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <div class="address-box">
+        <div class="input-group input-group-lg">
+            <span class="input-group-text"><select class="form-select" id="city" aria-label="Default select example">
+            <option selected>시/도 선택</option>
+            <option value="서울특별시">서울특별시</option>
+            <option value="부산광역시">부산광역시</option>
+            <option value="인천광역시">인천광역시</option>
+            <option value="대구광역시">대구광역시</option>
+            <option value="대전광역시">대전광역시</option>
+            <option value="광주광역시">광주광역시</option>
+            <option value="울산광역시">울산광역시</option>
+            <option value="세종특별자치시">세종특별자치시</option>
+            <option value="경기도">경기도</option>
+            <option value="강원도">강원도</option>
+            <option value="충청북도">충청북도</option>
+            <option value="충청남도">충청남도</option>
+            <option value="전라북도">전라북도</option>
+            <option value="전라남도">전라남도</option>
+            <option value="경상북도">경상북도</option>
+            <option value="경상남도">경상남도</option>
+            <option value="제주특별자치도">제주특별자치도</option>
+        </select></span>
+            <input type="text" class="form-control" id="address"  placeholder="상세 주소"aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-lg">
+        </div>
+    </div>
+    <div class="radio-box">
+        <div>
+            <h5 class="difficulty"> 걷기 난이도 </h5>
+            <div class="difficulty">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="difficultyRaidos" id="exampleRadios4" value="상"
+                           checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                        상
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="difficultyRaidos" id="exampleRadios5" value="중">
+                    <label class="form-check-label" for="exampleRadios2">
+                        중
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="difficultyRaidos" id="exampleRadios6" value="하">
+                    <label class="form-check-label" for="exampleRadios3">
+                        하
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h5 class="runtime"> 소요시간 </h5>
+            <div class="runtime">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="runtimeRadios" id="exampleRadios1" value="1시간 미만"
+                           checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                        1시간 미만
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="runtimeRadios" id="exampleRadios2"
+                           value="1시간에서 2시간">
+                    <label class="form-check-label" for="exampleRadios2">
+                        1시간에서 2시간
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="runtimeRadios" id="exampleRadios3"
+                           value="2시간 이상">
+                    <label class="form-check-label" for="exampleRadios2">
+                        2시간 이상
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" placeholder=코멘트 id="comment" style="height: 100px"></textarea>
+    </div>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="file">
+        <label class="custom-file-label" for="file">사진 선택하기</label>
+    </div>
+    <button onclick="posting()" type="button" class="btn btn-primary" style="margin-left:250px;">입력하기</button>
+</div>
+</body>
+</html>
