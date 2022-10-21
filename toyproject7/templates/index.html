@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>Document</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/Layout/header.css">
+    <link rel="stylesheet" href="../static/Layout/nav_weather.css">
+    <link rel="stylesheet" href="../static/Layout/nav.css">
+    <link rel="stylesheet" href="../static/Layout/section.css">
+    <link rel="stylesheet" href="../static/Layout/nav_write.css">
+    <link rel="stylesheet" href="../static/Layout/footer.css">
+    <link rel="stylesheet" href="../static/Layout/basic.css">
+
+    <link rel="stylesheet" href="../static/CSS/nav_btn_write.css">
+    <link rel="stylesheet" href="../static/CSS/heart_button.css">
+    <link rel="stylesheet" href="../static/CSS/card.css">
+
+    <!-- Script -->
+    <script src="../static/js/header_weather.js"></script>
+    <script src="../static/js/list_add.js"></script>
+    <script src="../static/js/heart_button.js"></script>
+
+</head>
+
+<body>
+    <!-- 상단 고정 fixed -->
+    <div class="fixed">
+
+        <!-- 상단 Header -->
+        <header class="header">
+            <p>항해 스터디 7조</p>
+        </header>
+
+        <!-- Header - nav -->
+        <nav class="nav">
+            <div class="nav_weather">
+                <p class="weather"></p>
+            </div>
+            <div class="nav_write">
+                <button type="button" id="nav_btn_write" onclick="location.href='write.html'">글쓰기</button>
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- 본문 -->
+    <section class="section">
+        <div class="myCard">
+            <div class="row row-cols-1 row-cols-md-3 g-4 list_add">
+                <div class="col">
+                    <div class="card">
+                        <h5 class="card-title"><b>제목</b></h5>
+                        <img src="https://movie-phinf.pstatic.net/20220720_283/1658284839003UzxoT_JPEG/movie_image.jpg"
+                            class="card-img-top" alt="빈 이미지" width="470px" height="590px">
+                        <div class="card-body">
+                            <input type='button'
+                                   class="card_btn_heart"
+                                   onclick='count("plus")'
+                                   value='❤️'/>
+                            <div id='heart_result'>0</div>
+<!--                            <button class="card_btn_heart">-->
+<!--                            <p onmouseover="this.innerText='❤️'" onmouseout="this.innerText='🤍'">🤍</p>-->
+<!--                            </button>-->
+                            <p><b>아이디 </b>내용</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 하단 -->
+    <footer class="footer">
+        <p>2022 항해 스터디 7조 토이프로젝트 / Create by 조병민, 남궁은, 이승우, 박종원, 송제윤, 이진호</p>
+    </footer>
+</body>
+
+</html>
